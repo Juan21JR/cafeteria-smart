@@ -438,3 +438,104 @@ if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
   navigator.serviceWorker.register("./service-worker.js")
     .catch(error => console.error("Error al registrar el Service Worker:", error));
 }
+
+
+
+
+/* PUBLICAR ALIMENTOS EN EL MENÚ DEL DÍA */
+
+async function comprimirFotoMenu(archivo) {
+  const imagen = new Image();
+
+  const urlTemporal = URL.createObjectURL(archivo);
+
+  try {
+    await new Promise((resolve, reject) => {
+      imagen.onload = resolve;
+      imagen.onerror = reject;
+      imagen.src = urlTemporal;
+    });
+
+    const maximo = 500;
+    const escala = Math.min(
+      1,
+      maximo / Math.max(imagen.width, imagen.height)
+    );
+
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(imagen.width * escala));
+    canvas.height = Math.max(1, Math.round(imagen.height * escala));
+
+    const contexto = canvas.getContext("2d");
+    contexto.drawImage(imagen, 0, 0, canvas.width, canvas.height);
+
+    return canvas.toDataURL("image/jpeg", 0.55);
+  } finally {
+    URL.revokeObjectURL(urlTemporal);
+  }
+}
+
+const formularioProducto = document.getElementById("formProducto");
+
+if (formularioProducto) {
+  formularioProducto.addEventListener("submit", async (evento) => {
+    evento.preventDefault();
+
+    const nombre = document.getElementById("nombreProducto").value.trim();
+    const precio = Number(document.getElementById("precioProducto").value);
+    const cantidad = Number(document.getElementById("cantidadProducto").value);
+    const archivo = document.getElementById("fotoProducto").files[0];
+    const mensaje = document.getElementById("mensajeProducto");
+    const boton = formularioProducto.querySelector('button[type="submit"]');
+
+    if (!auth.currentUser) {
+      mensaje.textContent = "Primero inicia sesión como encargada.";
+      return;
+    }
+
+    if (!nombre || !Number.isFinite(precio) || precio <= 0 ||
+        !Number.isInteger(cantidad) || cantidad < 0 || !archivo) {
+      mensaje.textContent = "Revisa el nombre, precio, cantidad y foto.";
+      return;
+    }
+
+    if (!archivo.type.startsWith("image/")) {
+      mensaje.textContent = "Selecciona un archivo de imagen.";
+      return;
+    }
+
+    boton.disabled = true;
+    mensaje.textContent = "Comprimiendo foto y publicando alimento...";
+
+    try {
+      const foto = await comprimirFotoMenu(archivo);
+
+      // Evita intentar guardar una foto demasiado grande en Firestore.
+      if (foto.length > 700000) {
+        throw new Error(
+          "La foto sigue siendo demasiado grande. Prueba con otra imagen."
+        );
+      }
+
+      await addDoc(collection(db, "menu"), {
+        nombre,
+        precio,
+        cantidad,
+        foto,
+        activo: true,
+        fecha: serverTimestamp()
+      });
+
+      mensaje.textContent = "¡Alimento guardado en Firebase!";
+      formularioProducto.reset();
+    } catch (error) {
+      console.error("Error publicando alimento:", error);
+      mensaje.textContent =
+        error.code === "permission-denied"
+          ? "Firebase no permite guardar el menú. Hay que revisar sus reglas."
+          : (error.message || "No se pudo publicar el alimento.");
+    } finally {
+      boton.disabled = false;
+    }
+  });
+}

@@ -47,9 +47,12 @@
 
     <section class="seccion" id="menu">
       <div class="titulo-seccion">
-        <div><span class="etiqueta">HECHO PARA TI</span><h2>Nuestro menú</h2></div>
-        <p>Elige tus favoritos y agrégalos al carrito.</p>
-      </div>
+  <div>
+    <span class="etiqueta">MENÚ ACTUALIZADO</span>
+    <h2>Ver menú del día</h2>
+  </div>
+  <p>Consulta los alimentos, precios y cantidades disponibles para hoy.</p>
+</div>
 
       <div class="categorias" id="categorias">
         <button class="categoria activa" data-categoria="Todos">Todo</button>
@@ -178,6 +181,58 @@
 </button>
 
       <div id="panelPrivado" hidden>
+        
+<h3>🍽️ Administrar menú del día</h3>
+<p>Agrega los alimentos que estarán disponibles hoy.</p>
+
+<form id="formProducto" class="panel">
+  <label for="nombreProducto">Nombre del alimento</label>
+  <input
+    id="nombreProducto"
+    type="text"
+    placeholder="Ej. Torta de milanesa"
+    maxlength="80"
+    required
+  >
+
+  <label for="precioProducto">Precio en pesos</label>
+  <input
+    id="precioProducto"
+    type="number"
+    min="0.01"
+    step="0.01"
+    placeholder="45"
+    required
+  >
+
+  <label for="cantidadProducto">Cantidad disponible</label>
+  <input
+    id="cantidadProducto"
+    type="number"
+    min="0"
+    step="1"
+    placeholder="8"
+    required
+  >
+
+  <label for="fotoProducto">Foto de la comida</label>
+  <input
+    id="fotoProducto"
+    type="file"
+    accept="image/*"
+    capture="environment"
+    required
+  >
+
+  <button class="boton boton-verde ancho" type="submit">
+    Publicar alimento
+  </button>
+
+  <p id="mensajeProducto" role="status"></p>
+</form>
+
+<div id="listaMenuEncargada"></div>
+
         <h3>Pedidos recientes</h3>
         <button class="boton boton-claro" id="btnActualizar">Actualizar pedidos</button>
         <div id="listaPedidos"></div>
