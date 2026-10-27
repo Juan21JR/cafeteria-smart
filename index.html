@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#087443">
+  <meta name="description" content="Menú y pedidos de Cafetería CECyTEM Smart">
+  <title>Cafetería CECyTEM Smart</title>
+  <link rel="stylesheet" href="estilos.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="imagenes/cecylogo.jpg">
+</head>
+<body>
+  <header class="encabezado">
+    <a class="marca" href="#inicio">
+      <span class="logo">🍔</span>
+      <span>CECyTEM <b>SMART</b><small>Sabor que te da energía</small></span>
+    </a>
+    <nav>
+      <a href="#menu">Menú</a>
+      <a href="#puntos">Mis puntos</a>
+      <a href="#pedido">Mi pedido</a>
+    </nav>
+    <a class="boton boton-claro" href="#pedido">🛒 Mi carrito <span id="contador">0</span></a>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-texto">
+        <span class="etiqueta">CAFETERÍA ESCOLAR</span>
+        <h1>Tu antojo.<br>Tu momento.</h1>
+        <p>Disfruta tus favoritos, pide fácilmente y acumula puntos en cada compra.</p>
+        <a class="boton boton-verde" href="#menu">Explorar menú →</a>
+      </div>
+      <div class="hero-imagen" role="img" aria-label="Hamburguesa y comida rápida">
+        <div class="circulo-comida">🍔</div>
+        <span class="burbuja">¡Rico y rápido!</span>
+      </div>
+    </section>
+
+    <section class="beneficios">
+      <div>🍟 <span><b>Menú variado</b><small>Algo para cada antojo</small></span></div>
+      <div>⚡ <span><b>Pedido sencillo</b><small>Desde tu celular</small></span></div>
+      <div>⭐ <span><b>Club de puntos</b><small>Premios por comprar</small></span></div>
+    </section>
+
+    <section class="seccion" id="menu">
+      <div class="titulo-seccion">
+        <div><span class="etiqueta">HECHO PARA TI</span><h2>Nuestro menú</h2></div>
+        <p>Elige tus favoritos y agrégalos al carrito.</p>
+      </div>
+
+      <div class="categorias" id="categorias">
+        <button class="categoria activa" data-categoria="Todos">Todo</button>
+        <button class="categoria" data-categoria="Hamburguesas">🍔 Hamburguesas</button>
+        <button class="categoria" data-categoria="Tacos">🌮 Tacos</button>
+        <button class="categoria" data-categoria="Tortas">🥪 Tortas</button>
+        <button class="categoria" data-categoria="Bebidas">🥤 Bebidas</button>
+        <button class="categoria" data-categoria="Postres">🧇 Postres</button>
+      </div>
+
+      <div class="productos" id="productos">
+        <p>Cargando menú...</p>
+      </div>
+    </section>
+ 
+<section class="seccion" id="registro">
+  <div class="titulo-seccion">
+    <div>
+      <span class="etiqueta">ÚNETE A CECyTEM REWARDS</span>
+      <h2>Regístrate como alumno</h2>
+    </div>
+    <p>Crea tu tarjeta digital para identificarte y acumular puntos.</p>
+  </div>
+
+  <form id="formRegistro" class="panel">
+    <label for="nombreAlumno">Nombre completo</label>
+    <input id="nombreAlumno" name="nombreAlumno" maxlength="100" required placeholder="Escribe tu nombre completo">
+
+    <label for="grupoAlumno">Grupo</label>
+    <input id="grupoAlumno" name="grupoAlumno" maxlength="20" required placeholder="Ej. 502">
+
+    <label for="matriculaAlumno">Matrícula o número de alumno</label>
+    <input id="matriculaAlumno" name="matriculaAlumno" maxlength="30" required placeholder="Escribe tu matrícula">
+
+    <button class="boton boton-verde ancho" type="submit">Registrarme y generar mi QR</button>
+
+    <p id="mensajeRegistro" class="mensaje" role="status"></p>
+    <div id="qrRegistro" class="qr-cliente"></div>
+  </form>
+</section>
+
+
+
+
+    <section class="recompensa" id="puntos">
+      <div class="recompensa-texto">
+        <span class="etiqueta">CECyTEM REWARDS</span>
+        <h2>Compra, acumula<br>y gana recompensas.</h2>
+        <p>Conserva tu tarjeta digital y presenta tu QR al realizar una compra.</p>
+        <button class="boton boton-blanco" id="btnTarjeta">Crear / ver mi tarjeta</button>
+        <p class="nota">Guarda tu tarjeta en este dispositivo. Si borras los datos del navegador, podrías perder el acceso a ella.</p>
+      </div>
+      <div class="tarjeta" id="tarjeta">
+        <div class="tarjeta-top"><span>🍔 CECyTEM SMART</span><span>⭐ CLUB</span></div>
+        <p>MI TARJETA DE CLIENTE</p>
+        <h3 id="numeroTarjeta">Aún no tienes tarjeta</h3>
+        <div id="qrCliente" class="qr-cliente">
+          <span>Tu QR aparecerá aquí</span>
+        </div>
+        <p class="puntos-texto">Puntos disponibles: <b id="puntosCliente">—</b></p>
+        <small id="estadoTarjeta">Crea tu tarjeta para comenzar.</small>
+      </div>
+    </section>
+
+    <section class="seccion pedido-seccion" id="pedido">
+      <div class="titulo-seccion">
+        <div><span class="etiqueta">YA CASI</span><h2>Completa tu pedido</h2></div>
+        <p>Revisa tus productos y envía tu pedido.</p>
+      </div>
+
+      <div class="pedido-grid">
+        <div class="panel">
+          <h3>🛒 Tu carrito</h3>
+          <div id="carrito"><p class="vacio">Todavía no agregas productos.</p></div>
+          <div class="total"><span>Total</span><strong id="total">$0.00</strong></div>
+        </div>
+
+        <form id="formPedido" class="panel">
+          <h3>📝 Datos del pedido</h3>
+          <label for="nombre">Nombre del cliente</label>
+          <input id="nombre" name="nombre" maxlength="80" required placeholder="Escribe tu nombre">
+
+          <label for="grupo">Grupo (opcional)</label>
+          <input id="grupo" name="grupo" maxlength="20" placeholder="Ej. 502">
+
+          <label for="metodoPago">Forma de pago</label>
+          <select id="metodoPago" name="metodoPago" required>
+            <option value="Efectivo">Efectivo en cafetería</option>
+            <option value="Transferencia">Transferencia (confirmar con encargada)</option>
+          </select>
+
+          <label for="observaciones">Notas (opcional)</label>
+          <textarea id="observaciones" maxlength="250" placeholder="Sin cebolla, por ejemplo"></textarea>
+
+          <button class="boton boton-verde ancho" type="submit" id="btnEnviar">Enviar pedido</button>
+          <p id="mensajePedido" class="mensaje" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="seccion panel panel-encargada" id="encargada">
+      <span class="etiqueta">SOLO PERSONAL AUTORIZADO</span>
+      <h2>Panel de encargada</h2>
+      <p>Consulta pedidos y escanea la tarjeta QR de un cliente.</p>
+      
+<label for="correoEncargada">Correo de la encargada</label>
+<input
+  id="correoEncargada"
+  type="email"
+  placeholder="encargada@ejemplo.com"
+  autocomplete="username"
+  required
+>
+
+<label for="claveEncargada">Contraseña</label>
+<input
+  id="claveEncargada"
+  type="password"
+  placeholder="Contraseña de Firebase"
+  autocomplete="current-password"
+  required
+>
+
+<button class="boton boton-verde" id="btnAcceso" type="button">
+  Entrar
+</button>
+
+      <div id="panelPrivado" hidden>
+        <h3>Pedidos recientes</h3>
+        <button class="boton boton-claro" id="btnActualizar">Actualizar pedidos</button>
+        <div id="listaPedidos"></div>
+        <h3>Escanear QR del cliente</h3>
+        <p>El escáner necesita permiso para usar la cámara.</p>
+        <div id="lectorQR"></div>
+        <p id="resultadoQR" role="status"></p>
+      </div>
+      <p class="nota">La clave de este prototipo no sustituye un inicio de sesión seguro. Antes de usarlo en producción, configura autenticación real y permisos en Firebase.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="marca"><span class="logo">🍔</span><span>CECyTEM <b>SMART</b></span></div>
+    <p>Hecho para nuestra comunidad estudiantil.</p>
+    <small>© 2026 Cafetería CECyTEM Smart</small>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode" defer></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
